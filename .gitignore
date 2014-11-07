@@ -12,6 +12,8 @@ wp-content/backup-db/
 wp-content/backups/
 wp-content/blogs.dir/
 wp-content/cache/
+wp-content/mu-plugins/bootstrap-overrides
+wp-content/themes/observantrecords2015
 wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
