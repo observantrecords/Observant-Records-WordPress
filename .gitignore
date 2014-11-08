@@ -13,6 +13,8 @@ wp-content/backups/
 wp-content/blogs.dir/
 wp-content/cache/
 wp-content/mu-plugins/bootstrap-overrides
+wp-content/mu-plugins/observant-records-custom-posts
+wp-content/mu-plugins/observant-records-artist-connector
 wp-content/themes/observantrecords2015
 wp-content/upgrade/
 wp-content/uploads/
