@@ -257,7 +257,7 @@ body {
 }
 
 .rtl .control-panel-back:before {
-	content: "\f345";
+	content: "\f344";
 }
 
 .in-sub-panel .control-panel-back {

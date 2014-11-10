@@ -263,8 +263,7 @@ function wp_login_viewport_meta() {
 /**
  * Handles sending password retrieval email to user.
  *
- * @global wpdb         $wpdb      WordPress database abstraction object.
- * @global PasswordHash $wp_hasher Portable PHP password hashing framework.
+ * @uses $wpdb WordPress Database object
  *
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
@@ -627,7 +626,8 @@ case 'rp' :
 	</p>
 
 	<div id="pass-strength-result" class="hide-if-no-js"><?php _e('Strength indicator'); ?></div>
-	<p class="description indicator-hint"><?php echo _wp_get_password_hint(); ?></p>
+	<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+
 	<br class="clear" />
 
 	<?php

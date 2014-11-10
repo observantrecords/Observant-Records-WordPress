@@ -1,7 +1,7 @@
 /**
- * Customizer enhancements for a better user experience.
+ * Theme Customizer enhancements for a better user experience.
  *
- * Contains handlers to make Customizer preview reload changes asynchronously.
+ * Contains handlers to make Theme Customizer preview reload changes asynchronously.
  * Things like site title and description changes.
  */
 

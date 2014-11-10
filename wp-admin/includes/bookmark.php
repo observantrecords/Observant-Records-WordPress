@@ -50,7 +50,7 @@ function edit_link( $link_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @return stdClass Default link
+ * @return object Default link
  */
 function get_default_link_to_edit() {
 	$link = new stdClass;

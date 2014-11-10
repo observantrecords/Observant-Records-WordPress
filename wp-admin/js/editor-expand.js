@@ -2,7 +2,7 @@
 
 window.wp = window.wp || {};
 
-jQuery( document ).ready( function( $ ) {
+jQuery( document ).ready( function($) {
 	var $window = $( window ),
 		$document = $( document ),
 		$adminBar = $( '#wpadminbar' ),
@@ -148,11 +148,6 @@ jQuery( document ).ready( function( $ ) {
 
 	// We need to wait for TinyMCE to initialize.
 	$document.on( 'tinymce-editor-init.editor-expand', function( event, editor ) {
-		var hideFloatPanels = _.debounce( function() {
-			! $( '.mce-floatpanel:hover' ).length && tinymce.ui.FloatPanel.hideAll();
-			$( '.mce-tooltip' ).hide();
-		}, 1000, true );
-
 		// Make sure it's the main editor.
 		if ( editor.id !== 'content' ) {
 			return;
@@ -172,20 +167,12 @@ jQuery( document ).ready( function( $ ) {
 
 		function mceGetCursorOffset() {
 			var node = editor.selection.getNode(),
-				range, view, offset;
+				view, offset;
 
 			if ( editor.plugins.wpview && ( view = editor.plugins.wpview.getView( node ) ) ) {
 				offset = view.getBoundingClientRect();
 			} else {
-				range = editor.selection.getRng();
-
-				try {
-					offset = range.getClientRects()[0];
-				} catch( er ) {}
-
-				if ( ! offset ) {
-					offset = node.getBoundingClientRect();
-				}
+				offset = node.getBoundingClientRect();
 			}
 
 			return offset.height ? offset : false;
@@ -199,23 +186,7 @@ jQuery( document ).ready( function( $ ) {
 		// others to the top/bottom of the *window* when moving the cursor out of the viewport.
 		function mceKeyup( event ) {
 			var VK = tinymce.util.VK,
-				key = event.keyCode;
-
-			// Bail on special keys.
-			if ( key <= 47 && ! ( key === VK.SPACEBAR || key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE ||
-				key === VK.UP || key === VK.RIGHT || key === VK.DOWN || key === VK.LEFT ) ) {
-
-				return;
-			// OS keys, function keys, num lock, scroll lock
-			} else if ( ( key >= 91 && key <= 93 ) || ( key >= 112 && key <= 123 ) || key === 144 || key === 145 ) {
-				return;
-			}
-
-			mceScroll( key );
-		}
-
-		function mceScroll( key ) {
-			var VK = tinymce.util.VK,
+				key = event.keyCode,
 				offset = mceGetCursorOffset(),
 				buffer = 10,
 				cursorTop, cursorBottom, editorTop, editorBottom;
@@ -224,9 +195,18 @@ jQuery( document ).ready( function( $ ) {
 				return;
 			}
 
+			// Bail on special keys.
+			if ( key <= 47 && ! ( key === VK.SPACEBAR || key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE || key === VK.UP || key === VK.LEFT || key === VK.DOWN || key === VK.UP ) ) {
+				return;
+			// OS keys, function keys, num lock, scroll lock
+			} else if ( ( key >= 91 && key <= 93 ) || ( key >= 112 && key <= 123 ) || key === 144 || key === 145 ) {
+				return;
+			}
+
 			cursorTop = offset.top + editor.iframeElement.getBoundingClientRect().top;
-			cursorBottom = cursorTop + offset.height + buffer;
-			cursorTop -= buffer;
+			cursorBottom = cursorTop + offset.height;
+			cursorTop = cursorTop - buffer;
+			cursorBottom = cursorBottom + buffer;
 			editorTop = heights.adminBarHeight + heights.toolsHeight + heights.menuBarHeight + heights.visualTopHeight;
 			editorBottom = heights.windowHeight - heights.bottomHeight - heights.statusBarHeight;
 
@@ -235,11 +215,7 @@ jQuery( document ).ready( function( $ ) {
 				return;
 			}
 
-			// WebKit browsers scroll-into-view to the middle of the window but not for arrow keys/backspace.
-			// The others scroll to the top of the window, we need to account for the adminbar and editor toolbar(s).
-			if ( cursorTop < editorTop && ( ! tinymce.Env.webkit ||
-				( key === VK.UP || key === VK.RIGHT || key === VK.DOWN || key === VK.LEFT || key === VK.BACKSPACE ) ) ) {
-
+			if ( cursorTop < editorTop && ( key === VK.UP || key === VK.LEFT || key === VK.BACKSPACE ) ) {
 				window.scrollTo( window.pageXOffset, cursorTop + window.pageYOffset - editorTop );
 			} else if ( cursorBottom > editorBottom ) {
 				window.scrollTo( window.pageXOffset, cursorBottom + window.pageYOffset - editorBottom );
@@ -248,8 +224,6 @@ jQuery( document ).ready( function( $ ) {
 
 		// Adjust when switching editor modes.
 		function mceShow() {
-			$window.on( 'scroll.mce-float-panels', hideFloatPanels );
-
 			setTimeout( function() {
 				editor.execCommand( 'wpAutoResize' );
 				adjust();
@@ -257,8 +231,6 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		function mceHide() {
-			$window.off( 'scroll.mce-float-panels' );
-
 			setTimeout( function() {
 				var top = $contentWrap.offset().top;
 
@@ -279,10 +251,6 @@ jQuery( document ).ready( function( $ ) {
 			editor.on( 'hide', mceHide );
 			// Adjust when the editor resizes.
 			editor.on( 'setcontent wp-autoresize wp-toolbar-toggle', adjust );
-			// Scroll to the caret or selection after undo/redo
-			editor.on( 'undo redo', mceScroll );
-
-			$window.off( 'scroll.mce-float-panels' ).on( 'scroll.mce-float-panels', hideFloatPanels );
 		};
 
 		mceUnbind = function() {
@@ -290,9 +258,6 @@ jQuery( document ).ready( function( $ ) {
 			editor.off( 'show', mceShow );
 			editor.off( 'hide', mceHide );
 			editor.off( 'setcontent wp-autoresize wp-toolbar-toggle', adjust );
-			editor.off( 'undo redo', mceScroll );
-
-			$window.off( 'scroll.mce-float-panels' );
 		};
 
 		if ( $wrap.hasClass( 'wp-editor-expand' ) ) {
@@ -625,12 +590,6 @@ jQuery( document ).ready( function( $ ) {
 				}
 
 				adjust();
-			}).on( 'wp-window-resized.editor-expand', function() {
-				if ( mceEditor && ! mceEditor.isHidden() ) {
-					mceEditor.execCommand( 'wpAutoResize' );
-				} else {
-					textEditorResize();
-				}
 			});
 
 		$textEditor.on( 'focus.editor-expand input.editor-expand propertychange.editor-expand', textEditorResize );
