@@ -16,6 +16,7 @@ wp-content/mu-plugins/
 wp-content/plugins/
 !wp-content/plugins/hello.php
 !wp-content/plugins/index.php
+wp-content/sunrise.php
 wp-content/themes/eponymous42015
 wp-content/themes/emptyensemble2015
 wp-content/themes/observantrecords2015
