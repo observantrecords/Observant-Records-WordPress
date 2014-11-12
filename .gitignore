@@ -12,8 +12,16 @@ wp-content/backup-db/
 wp-content/backups/
 wp-content/blogs.dir/
 wp-content/cache/
-wp-content/mu-plugins/bootstrap-overrides
+wp-content/mu-plugins/
+wp-content/plugins/
+!wp-content/plugins/hello.php
+!wp-content/plugins/index.php
+wp-content/sunrise.php
+wp-content/themes/eponymous42015
+wp-content/themes/emptyensemble2015
 wp-content/themes/observantrecords2015
+wp-content/themes/penziasandwilson2015
+wp-content/themes/shinkyokuadvocacy2015
 wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
