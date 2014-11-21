@@ -63,7 +63,7 @@ function press_it() {
 	// Error handling for media_sideload.
 	if ( is_wp_error($upload) ) {
 		wp_delete_post($post_ID);
-		wp_die($upload);
+		wp_die( esc_html( $upload->get_error_message() ) );
 	} else {
 		// Post formats.
 		if ( isset( $_POST['post_format'] ) ) {
@@ -149,9 +149,9 @@ if ( !empty($_REQUEST['ajax']) ) {
 			</div>
 
 			<p class="centered">
-				<input type="hidden" name="this_photo" value="<?php echo esc_attr( $image ); ?>" id="tb_this_photo" class="tb_this_photo" />
+				<input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="tb_this_photo" class="tb_this_photo" />
 				<a href="#" class="select">
-					<img src="<?php echo esc_url( $image ); ?>" alt="<?php esc_attr_e( 'Click to insert.' ); ?>" title="<?php esc_attr_e( 'Click to insert.' ); ?>" />
+					<img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" />
 				</a>
 			</p>
 

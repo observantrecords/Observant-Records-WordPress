@@ -107,8 +107,6 @@
         });
 
 		preview.send( 'ready', {
-			activePanels: api.settings.activePanels,
-			activeSections: api.settings.activeSections,
 			activeControls: api.settings.activeControls
 		} );
 

@@ -1,6 +1,7 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
-	var toolbarActive = false,
+	var serializer,
+		toolbarActive = false,
 		editingImage = false;
 
 	function parseShortcode( content ) {
@@ -226,6 +227,19 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		return node && !! ( node.textContent || node.innerText );
 	}
 
+	// Verify HTML in captions
+	function verifyHTML( caption ) {
+		if ( ! caption || ( caption.indexOf( '<' ) === -1 && caption.indexOf( '>' ) === -1 ) ) {
+			return caption;
+		}
+
+		if ( ! serializer ) {
+			serializer = new tinymce.html.Serializer( {}, editor.schema );
+		}
+
+		return serializer.serialize( editor.parser.parse( caption, { forced_root_block: false } ) );
+	}
+
 	function updateImage( imageNode, imageData ) {
 		var classes, className, node, html, parent, wrap, linkNode,
 			captionNode, dd, dl, id, attrs, linkAttrs, width, height, align,
@@ -303,6 +317,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 
 		if ( imageData.caption ) {
+			imageData.caption = verifyHTML( imageData.caption );
 
 			id = imageData.attachment_id ? 'attachment_' + imageData.attachment_id : null;
 			align = 'align' + ( imageData.align || 'none' );
@@ -339,21 +354,19 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 				// should create a new function for generating the caption markup
 				html =  '<dl ' + id + 'class="' + className +'" style="width: '+ width +'px">' +
-					'<dt class="wp-caption-dt"></dt><dd class="wp-caption-dd">'+ imageData.caption +'</dd></dl>';
-
-				wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
+					'<dt class="wp-caption-dt">' + dom.getOuterHTML( node ) + '</dt><dd class="wp-caption-dd">'+ imageData.caption +'</dd></dl>';
 
 				if ( parent = dom.getParent( node, 'p' ) ) {
+					wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
 					parent.parentNode.insertBefore( wrap, parent );
+					dom.remove( node );
 
 					if ( dom.isEmpty( parent ) ) {
 						dom.remove( parent );
 					}
 				} else {
-					node.parentNode.insertBefore( wrap, node );
+					dom.setOuterHTML( node, '<div class="mceTemp">' + html + '</div>' );
 				}
-
-				editor.$( wrap ).find( 'dt.wp-caption-dt' ).append( node );
 			}
 		} else if ( captionNode ) {
 			// Remove the caption wrapper and place the image in new paragraph
@@ -647,6 +660,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 				// Convert remaining line breaks to <br>
 				caption = caption.replace( /(<br[^>]*>)\s*\n\s*/g, '$1' ).replace( /\s*\n\s*/g, '<br />' );
+				caption = verifyHTML( caption );
 			}
 
 			if ( ! imgNode ) {
@@ -736,27 +750,31 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 						}
 
 						if ( imgNode.parentNode && imgNode.parentNode.nodeName === 'A' ) {
+							html = dom.getOuterHTML( imgNode.parentNode );
 							node = imgNode.parentNode;
 						} else {
+							html = dom.getOuterHTML( imgNode );
 							node = imgNode;
 						}
 
 						html = '<dl ' + captionId + captionAlign + captionWidth + '>' +
-							'<dt class="wp-caption-dt"></dt><dd class="wp-caption-dd">'+ caption +'</dd></dl>';
+							'<dt class="wp-caption-dt">'+ html +'</dt><dd class="wp-caption-dd">'+ caption +'</dd></dl>';
 
-						wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
+						if ( parent = dom.getParent( imgNode, 'p' ) ) {
+							wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
+							dom.insertAfter( wrap, parent );
+							editor.selection.select( wrap );
+							editor.nodeChanged();
 
-						if ( parent = dom.getParent( node, 'p' ) ) {
-							parent.parentNode.insertBefore( wrap, parent );
+							// Delete the old image node
+							dom.remove( node );
 
 							if ( dom.isEmpty( parent ) ) {
 								dom.remove( parent );
 							}
 						} else {
-							node.parentNode.insertBefore( wrap, node );
+							editor.selection.setContent( '<div class="mceTemp">' + html + '</div>' );
 						}
-
-						editor.$( wrap ).find( 'dt.wp-caption-dt' ).append( node );
 					}
 				} else {
 					if ( wrap ) {

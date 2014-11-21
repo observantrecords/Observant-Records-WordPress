@@ -390,10 +390,7 @@ endif; // twentyeleven_continue_reading_link
  * @return The filtered Read More text.
  */
 function twentyeleven_auto_excerpt_more( $more ) {
-	if ( ! is_admin() ) {
-		return ' &hellip;' . twentyeleven_continue_reading_link();
-	}
-	return $more;
+	return ' &hellip;' . twentyeleven_continue_reading_link();
 }
 add_filter( 'excerpt_more', 'twentyeleven_auto_excerpt_more' );
 
@@ -409,7 +406,7 @@ add_filter( 'excerpt_more', 'twentyeleven_auto_excerpt_more' );
  * @return string The filtered "Continue Reading" link.
  */
 function twentyeleven_custom_excerpt_more( $output ) {
-	if ( has_excerpt() && ! is_attachment() && ! is_admin() ) {
+	if ( has_excerpt() && ! is_attachment() ) {
 		$output .= twentyeleven_continue_reading_link();
 	}
 	return $output;

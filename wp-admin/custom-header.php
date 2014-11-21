@@ -61,11 +61,6 @@ class Custom_Image_Header {
 	private $page = '';
 
 	/**
-	 * @var bool
-	 */
-	private $updated;
-
-	/**
 	 * Constructor - Register administration header callback.
 	 *
 	 * @since 2.1.0
@@ -304,6 +299,9 @@ class Custom_Image_Header {
 	 */
 	public function process_default_headers() {
 		global $_wp_default_headers;
+
+		if ( !empty($this->headers) )
+			return;
 
 		if ( !isset($_wp_default_headers) )
 			return;
@@ -617,7 +615,6 @@ class Custom_Image_Header {
 </table>
 
 <form method="post" action="<?php echo esc_url( add_query_arg( 'step', 1 ) ) ?>">
-<?php submit_button( null, 'screen-reader-text', 'save-header-options', false ); ?>
 <table class="form-table">
 <tbody>
 	<?php if ( get_uploaded_header_images() ) : ?>
@@ -751,6 +748,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			$attachment_id = $data['attachment_id'];
 			$file = $data['file'];
 			$url = $data['url'];
+			$type = $data['type'];
 		}
 
 		if ( file_exists( $file ) ) {
@@ -1109,7 +1107,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$has_flex_width = current_theme_supports( 'custom-header', 'flex-width' );
 		$has_flex_height = current_theme_supports( 'custom-header', 'flex-height' );
 		$has_max_width = current_theme_supports( 'custom-header', 'max-width' ) ;
-		$dst = array( 'dst_height' => null, 'dst_width' => null );
+		$dst = array( 'dst_height' => null, 'dst_height' => null );
 
 		// For flex, limit size of image displayed to 1500px unless theme says otherwise
 		if ( $has_flex_width ) {
