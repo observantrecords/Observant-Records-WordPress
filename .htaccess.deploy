@@ -2,6 +2,11 @@
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+Header always set Content-Security-Policy "upgrade-insecure-requests;"
+
 RewriteBase /
 RewriteRule ^index\.php$ - [L]
 
@@ -18,8 +23,18 @@ RewriteRule . index.php [L]
 
 # END WordPress
 
-SetEnvIf HOST wp-dev.observantrecords.com dev
-SetEnvIf HOST wp-test.observantrecords.com test
+SetEnvIf HOST dev.observantrecords.com dev
+SetEnvIf HOST dev.eponymous4.com dev
+SetEnvIf HOST dev.emptyensemble.com dev
+SetEnvIf HOST dev.penziasandwilson.com dev
+SetEnvIf HOST dev.shinkyokuadvocacy.com dev
+SetEnvIf HOST dev.minedagap.com dev
+SetEnvIf HOST test.observantrecords.com test
+SetEnvIf HOST test.eponymous4.com test
+SetEnvIf HOST test.emptyensemble.com test
+SetEnvIf HOST test.penziasandwilson.com test
+SetEnvIf HOST test.shinkyokuadvocacy.com test
+SetEnvIf HOST test.minedagap.com test
 AuthType Basic
 AuthUserFile /home/grebue5/.htpasswd
 AuthName "Observant Records development site"
