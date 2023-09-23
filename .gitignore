@@ -9,6 +9,7 @@ environment.php
 sitemap.xml
 sitemap.xml.gz
 wp-config.php
+wp-config-ddev.php
 wp-content/advanced-cache.php
 wp-content/backup-db/
 wp-content/backups/
@@ -23,14 +24,16 @@ wp-content/themes/eponymous42015
 wp-content/themes/eponymous42020
 wp-content/themes/emptyensemble2015
 wp-content/themes/emptyensemble2020
+wp-content/themes/minedagap2020
 wp-content/themes/nemesisvex2020
 wp-content/themes/observantrecords2015
 wp-content/themes/observantrecords2020
 wp-content/themes/penziasandwilson2015
 wp-content/themes/penziasandwilson2020
+wp-content/themes/rattsar2020
 wp-content/themes/servicepackthree2020
 wp-content/themes/shinkyokuadvocacy2015
-wp-content/themes/minedagap2020
+wp-content/themes/thedeadmalls2020
 wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
