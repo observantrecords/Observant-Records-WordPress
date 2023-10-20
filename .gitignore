@@ -4,6 +4,7 @@
 *.sql
 .htaccess
 .well-known
+.DS_Store
 configuration.php
 environment.php
 sitemap.xml
@@ -33,6 +34,8 @@ wp-content/themes/penziasandwilson2020
 wp-content/themes/rattsar2020
 wp-content/themes/servicepackthree2020
 wp-content/themes/shinkyokuadvocacy2015
+wp-content/themes/store2020
+wp-content/themes/test2020
 wp-content/themes/thedeadmalls2020
 wp-content/upgrade/
 wp-content/uploads/
