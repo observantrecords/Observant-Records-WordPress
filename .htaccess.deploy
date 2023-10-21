@@ -24,6 +24,7 @@ RewriteRule . index.php [L]
 # END WordPress
 
 SetEnvIf HOST dev.observantrecords.com dev
+SetEnvIf HOST dev.observantrecords.store dev
 SetEnvIf HOST dev.eponymous4.com dev
 SetEnvIf HOST dev.emptyensemble.com dev
 SetEnvIf HOST dev.penziasandwilson.com dev
@@ -34,6 +35,7 @@ SetEnvIf HOST dev.nemesisvex.com dev
 SetEnvIf HOST dev.the-dead-malls.com dev
 SetEnvIf HOST dev.rat-tsar.com dev
 SetEnvIf HOST test.observantrecords.com test
+SetEnvIf HOST test.observantrecords.store test
 SetEnvIf HOST test.eponymous4.com test
 SetEnvIf HOST test.emptyensemble.com test
 SetEnvIf HOST test.penziasandwilson.com test
