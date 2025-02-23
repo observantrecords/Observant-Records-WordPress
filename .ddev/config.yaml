@@ -18,6 +18,7 @@ additional_hostnames:
   - shinkyokuadvocacy
   - store
   - heartstab
+  - reiwa3
 additional_fqdns: []
 mariadb_version: "10.3"
 mysql_version: ""
