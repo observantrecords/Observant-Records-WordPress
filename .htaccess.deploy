@@ -187,7 +187,6 @@ SetEnvIf Host "^heart-stab\.com" noauth=1
 SetEnvIf Host "^minedagap\.com" noauth=1
 SetEnvIf Host "^nemesisvex\.com" noauth=1
 SetEnvIf Host "^observantrecords\.com" noauth=1
-SetEnvIf Host "^observantrecords\.store" noauth=1
 SetEnvIf Host "^penziasandwilson\.com" noauth=1
 SetEnvIf Host "^rat-tsar\.com" noauth=1
 SetEnvIf Host "^reiwa-3\.com" noauth=1
