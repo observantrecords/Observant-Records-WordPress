@@ -178,40 +178,23 @@ RewriteRule . index.php [L]
 
 # END WordPress
 
-SetEnvIf HOST dev.observantrecords.com dev
-SetEnvIf HOST dev.observantrecords.store dev
-SetEnvIf HOST dev.eponymous4.com dev
-SetEnvIf HOST dev.emptyensemble.com dev
-SetEnvIf HOST dev.penziasandwilson.com dev
-SetEnvIf HOST dev.shinkyokuadvocacy.com dev
-SetEnvIf HOST dev.minedagap.com dev
-SetEnvIf HOST dev.servicepackthree.com dev
-SetEnvIf HOST dev.nemesisvex.com dev
-SetEnvIf HOST dev.the-dead-malls.com dev
-SetEnvIf HOST dev.rat-tsar.com dev
-SetEnvIf HOST dev.heart-stab.com dev
-SetEnvIf HOST test.observantrecords.com test
-SetEnvIf HOST test.observantrecords.store test
-SetEnvIf HOST test.eponymous4.com test
-SetEnvIf HOST test.emptyensemble.com test
-SetEnvIf HOST test.penziasandwilson.com test
-SetEnvIf HOST test.shinkyokuadvocacy.com test
-SetEnvIf HOST test.minedagap.com test
-SetEnvIf HOST test.servicepackthree.com test
-SetEnvIf HOST test.nemesisvex.com test
-SetEnvIf HOST test.the-dead-malls.com test
-SetEnvIf HOST test.rat-tsar.com test
-SetEnvIf HOST test.heart-stab.com test
+ErrorDocument 401 default
+
+SetEnvIf Host "^observantrecords\.com" noauth=1
+SetEnvIf Host "^store\.observantrecords\.com" noauth=1
+SetEnvIf Host "^observantrecords\.store" noauth=1
+
 AuthType Basic
+AuthGroupFile /dev/null
 AuthUserFile /home/grebue5/.htpasswd
 AuthName "Observant Records development site"
-require valid-user
 
-Order allow,deny
-Allow from all
-Deny from env=dev
-Deny from env=test
-Satisfy any
+<IfModule mod_authz_core.c>
+    <RequireAny>
+        Require env noauth
+        Require valid-user
+    </RequireAny>
+</IfModule>
 
 
 # Wordfence WAF
