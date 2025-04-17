@@ -180,9 +180,21 @@ RewriteRule . index.php [L]
 
 ErrorDocument 401 default
 
+SetEnvIf Host "^blackmagicarts\.com" noauth=1
+SetEnvIf Host "^emptyensemble\.com" noauth=1
+SetEnvIf Host "^eponymous4\.com" noauth=1
+SetEnvIf Host "^heart-stab\.com" noauth=1
+SetEnvIf Host "^minedagap\.com" noauth=1
+SetEnvIf Host "^nemesisvex\.com" noauth=1
 SetEnvIf Host "^observantrecords\.com" noauth=1
-SetEnvIf Host "^store\.observantrecords\.com" noauth=1
 SetEnvIf Host "^observantrecords\.store" noauth=1
+SetEnvIf Host "^penziasandwilson\.com" noauth=1
+SetEnvIf Host "^rat-tsar\.com" noauth=1
+SetEnvIf Host "^reiwa-3\.com" noauth=1
+SetEnvIf Host "^servicepackthree\.com" noauth=1
+SetEnvIf Host "^shibuyafggt\.com" noauth=1
+SetEnvIf Host "^shinkyokuadvocacy\.com" noauth=1
+SetEnvIf Host "^the-dead-malls\.com" noauth=1
 
 AuthType Basic
 AuthGroupFile /dev/null
