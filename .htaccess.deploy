@@ -185,6 +185,7 @@ SetEnvIf Host "^emptyensemble\.com" noauth=1
 SetEnvIf Host "^eponymous4\.com" noauth=1
 SetEnvIf Host "^heart-stab\.com" noauth=1
 SetEnvIf Host "^minedagap\.com" noauth=1
+SetEnvIf Host "^neldaweldsspears\.com" noauth=1
 SetEnvIf Host "^nemesisvex\.com" noauth=1
 SetEnvIf Host "^observantrecords\.com" noauth=1
 SetEnvIf Host "^penziasandwilson\.com" noauth=1
@@ -194,6 +195,7 @@ SetEnvIf Host "^servicepackthree\.com" noauth=1
 SetEnvIf Host "^shibuyafggt\.com" noauth=1
 SetEnvIf Host "^shinkyokuadvocacy\.com" noauth=1
 SetEnvIf Host "^the-dead-malls\.com" noauth=1
+SetEnvIf Host "^utacreativeconcern\.com" noauth=1
 
 AuthType Basic
 AuthGroupFile /dev/null
